@@ -33,6 +33,10 @@ spec:
       serviceAccountName: {{ include "cloudflare-tunnel.fullname" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.topologySpreadConstraints.enabled }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.topologySpreadConstraints.constraints | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
